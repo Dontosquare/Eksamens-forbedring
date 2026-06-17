@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Comfortaa";
+  src: url(./fonts/Comfortaa-VariableFont_wght.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url(./fonts/Montserrat-VariableFont_wght.ttf) format("truetype");
+}
+
+$color-foam-blue: #dceae7;
+$color-cloudy-white: #ffffff;
+$color-kelp-green: #1c4d48;
+$color-charcoal-black: #333333;
+
+$font-comfortaa: "comfortaa", sans-serif;
+$font-montserrat: "montserrat", sans-serif;
+
+h1 {
+  font-size: 2.5rem;
+  font-family: $font-comfortaa;
+}
+
+h2 {
+  font-size: 2rem;
+  font-family: $font-comfortaa;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-family: $font-comfortaa;
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-family: $font-comfortaa;
+}
+
+h5 {
+  font-size: 1.125rem;
+  font-family: $font-montserrat;
+}
+
+p,
+li {
+  font-size: 1rem;
+  font-family: $font-montserrat;
+}
+
+a {
+  font-size: 1rem;
+  font-family: $font-montserrat;
+  text-decoration: none;
+  color: $color-cloudy-white;
+  white-space: nowrap;
+}
+
+.btn__green {
+  font-family: $font-comfortaa;
+  border-radius: 3.125rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: $color-kelp-green;
+  color: $color-cloudy-white;
+  border: none;
+  padding: 1.25rem 3rem;
+  box-shadow: 4px 4px 4px rgba($color-kelp-green, 0.15);
+  cursor: pointer;
+
+  transition: transform 300ms ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.btn__white {
+  font-family: $font-comfortaa;
+  border-radius: 3.125rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: $color-cloudy-white;
+  color: $color-kelp-green;
+  border: 1px solid $color-kelp-green;
+  padding: 1.25rem 3.5rem;
+  box-shadow: 4px 4px 4px rgba($color-kelp-green, 0.15);
+  cursor: pointer;
+
+  transition: transform 300ms ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
