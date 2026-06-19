@@ -1,13 +1,13 @@
 <script setup>
 import Bubbles from "@/assets/images/hero-section-bubbles.webp";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 import SeoCheckerResult from "./SeoCheckerResult.vue";
 
 const apiKey = import.meta.env.VITE_API_TOKEN;
 const apiEndpoint =
   "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
-const targetUrl = ref("");
+const RawUrl = ref("");
 const result = ref(0);
 const isLoading = ref(false);
 const errorMessage = ref("");
@@ -16,12 +16,13 @@ const hasError = ref(false);
 const fetchPageSpeedData = async () => {
   if (!validateUrl()) return;
   isLoading.value = true;
-  const requestUrl = `${apiEndpoint}?url=${encodeURIComponent(targetUrl.value)}&key=${apiKey}&category=seo`;
+  const requestUrl = `${apiEndpoint}?url=${encodeURIComponent(RawUrl.value)}&key=${apiKey}&category=seo`;
   console.log(requestUrl);
 
   try {
     const response = await fetch(requestUrl);
     const data = await response.json();
+    console.log(data);
     result.value = data.lighthouseResult.categories.seo.score;
   } catch (error) {
     isLoading.value = false;
@@ -31,13 +32,22 @@ const fetchPageSpeedData = async () => {
   }
 };
 
+const displayUrl = computed({
+  get() {
+    return RawUrl.value.replace(/^(https?:\/\/)?(www\.)?/, "");
+  },
+  set(val) {
+    RawUrl.value = "https://" + val.replace(/^(https?:\/\/)?(www\.)?/, "");
+  }
+});
+
 function validateUrl() {
-  if (!targetUrl.value) {
+  if (!RawUrl.value) {
     errorMessage.value = "Indtast venligst en URL.";
     return false;
   }
-  if (!targetUrl.value.startsWith("https://")) {
-    if (targetUrl.value.startsWith("http://")) {
+  if (!RawUrl.value.startsWith("https://")) {
+    if (RawUrl.value.startsWith("http://")) {
       errorMessage.value = "Brug venligst https:// i stedet for http://";
     } else {
       errorMessage.value =
@@ -57,7 +67,7 @@ function clearError() {
 
 const goBack = () => {
   result.value = 0;
-  targetUrl.value = "";
+  RawUrl.value = "";
 };
 </script>
 
@@ -80,7 +90,7 @@ const goBack = () => {
             {{ errorMessage }}
           </p>
           <input
-            v-model="targetUrl"
+            v-model="displayUrl"
             aria-label="find din seo score"
             type="text"
             class="section-wrapper__input"
@@ -93,8 +103,8 @@ const goBack = () => {
           <button
             class="btn__green"
             id="submit-btn"
-            :aria-disabled="!!errorMessage || !targetUrl"
-            :disabled="!!errorMessage || !targetUrl"
+            :aria-disabled="!!errorMessage || !displayUrl"
+            :disabled="!!errorMessage || !displayUrl"
             @click="fetchPageSpeedData"
           >
             Tjek min SEO
